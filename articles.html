@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文章列表</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        .header {
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #3498db;
+        }
+
+        .admin-link {
+            background: #3498db;
+            color: white !important;
+            padding: 8px 16px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .admin-link:hover {
+            background: #2980b9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .page-title h1 {
+            font-size: 36px;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .page-title p {
+            font-size: 18px;
+            color: #7f8c8d;
+        }
+
+        .search-section {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 15px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 12px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .search-box input:focus {
+            border-color: #3498db;
+        }
+
+        .search-btn {
+            padding: 12px 30px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+
+        .search-btn:hover {
+            background: #2980b9;
+        }
+
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .article-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .article-content {
+            padding: 25px;
+        }
+
+        .article-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .article-meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+
+        .article-author {
+            font-weight: 500;
+            color: #3498db;
+        }
+
+        .article-excerpt {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .read-more {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .read-more:hover {
+            color: #2980b9;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: #7f8c8d;
+        }
+
+        .empty-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+
+        .empty-title {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 50px;
+        }
+
+        .pagination button {
+            padding: 10px 15px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #333;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .pagination button:hover {
+            background: #f8f9fa;
+            border-color: #3498db;
+        }
+
+        .pagination button.active {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* 文章详情模态框 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-radius: 10px;
+        }
+
+        .modal-header {
+            padding: 30px 30px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .modal-title {
+            font-size: 28px;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        .modal-meta {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .modal-content-text {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #333;
+            white-space: pre-wrap;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 30px;
+            cursor: pointer;
+            color: #999;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .close-btn:hover {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        @media (max-width: 768px) {
+            .nav {
+                padding: 0 15px;
+                height: 60px;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+
+            .nav-links {
+                gap: 15px;
+            }
+
+            .container {
+                padding: 20px 15px;
+            }
+
+            .page-title h1 {
+                font-size: 28px;
+            }
+
+            .articles-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .search-box {
+                flex-direction: column;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 20px;
+            }
+
+            .modal-header,
+            .modal-body {
+                padding: 20px;
+            }
+
+            .modal-title {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">📚 文章博客</div>
+            <div class="nav-links">
+                <a href="#" onclick="showAllArticles()">首页</a>
+                <a href="login.html" class="admin-link">管理后台</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="page-title">
+            <h1>文章列表</h1>
+            <p>分享知识，传递价值</p>
+        </div>
+
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="搜索文章标题、作者或内容...">
+                <button class="search-btn" onclick="searchArticles()">搜索</button>
+            </div>
+        </div>
+
+        <div class="articles-grid" id="articlesGrid">
+            <!-- 文章列表将在这里动态生成 -->
+        </div>
+
+        <div class="pagination" id="pagination">
+            <!-- 分页将在这里动态生成 -->
+        </div>
+    </div>
+
+    <!-- 文章详情模态框 -->
+    <div class="modal" id="articleModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle"></h2>
+                <div class="modal-meta">
+                    <span id="modalAuthor"></span>
+                    <span id="modalDate"></span>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="modal-content-text" id="modalContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 全局变量
+        let articles = JSON.parse(localStorage.getItem('articles')) || [];
+        let publishedArticles = articles.filter(article => article.status === 'published');
+        let filteredArticles = publishedArticles;
+        let currentPage = 1;
+        let articlesPerPage = 6;
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            renderArticles();
+            renderPagination();
+        });
+
+        // 渲染文章列表
+        function renderArticles() {
+            const grid = document.getElementById('articlesGrid');
+            const startIndex = (currentPage - 1) * articlesPerPage;
+            const endIndex = startIndex + articlesPerPage;
+            const pageArticles = filteredArticles.slice(startIndex, endIndex);
+
+            if (pageArticles.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1 / -1;">
+                        <div class="empty-icon">📝</div>
+                        <div class="empty-title">暂无文章</div>
+                        <p>还没有发布的文章，请稍后再来查看</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = pageArticles.map(article => {
+                const excerpt = article.content.length > 150 
+                    ? article.content.substring(0, 150) + '...' 
+                    : article.content;
+
+                return `
+                    <div class="article-card" onclick="openArticle(${article.id})">
+                        <div class="article-content">
+                            <h3 class="article-title">${article.title}</h3>
+                            <div class="article-meta">
+                                <span class="article-author">👤 ${article.author}</span>
+                                <span>📅 ${article.createTime}</span>
+                            </div>
+                            <p class="article-excerpt">${excerpt}</p>
+                            <a href="#" class="read-more" onclick="event.stopPropagation(); openArticle(${article.id})">阅读全文 →</a>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // 渲染分页
+        function renderPagination() {
+            const pagination = document.getElementById('pagination');
+            const totalPages = Math.ceil(filteredArticles.length / articlesPerPage);
+
+            if (totalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+
+            let paginationHTML = '';
+
+            // 上一页
+            paginationHTML += `<button onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>‹ 上一页</button>`;
+
+            // 页码
+            const startPage = Math.max(1, currentPage - 2);
+            const endPage = Math.min(totalPages, currentPage + 2);
+
+            if (startPage > 1) {
+                paginationHTML += `<button onclick="changePage(1)">1</button>`;
+                if (startPage > 2) {
+                    paginationHTML += `<span>...</span>`;
+                }
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                paginationHTML += `<button class="${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`;
+            }
+
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) {
+                    paginationHTML += `<span>...</span>`;
+                }
+                paginationHTML += `<button onclick="changePage(${totalPages})">${totalPages}</button>`;
+            }
+
+            // 下一页
+            paginationHTML += `<button onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>下一页 ›</button>`;
+
+            pagination.innerHTML = paginationHTML;
+        }
+
+        // 切换页面
+        function changePage(page) {
+            const totalPages = Math.ceil(filteredArticles.length / articlesPerPage);
+            if (page < 1 || page > totalPages) return;
+            
+            currentPage = page;
+            renderArticles();
+            renderPagination();
+            
+            // 滚动到顶部
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // 搜索文章
+        function searchArticles() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+            
+            if (searchTerm === '') {
+                filteredArticles = publishedArticles;
+            } else {
+                filteredArticles = publishedArticles.filter(article => 
+                    article.title.toLowerCase().includes(searchTerm) ||
+                    article.author.toLowerCase().includes(searchTerm) ||
+                    article.content.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            currentPage = 1;
+            renderArticles();
+            renderPagination();
+        }
+
+        // 显示所有文章
+        function showAllArticles() {
+            document.getElementById('searchInput').value = '';
+            filteredArticles = publishedArticles;
+            currentPage = 1;
+            renderArticles();
+            renderPagination();
+        }
+
+        // 打开文章详情
+        function openArticle(id) {
+            const article = articles.find(a => a.id === id);
+            if (!article) return;
+
+            document.getElementById('modalTitle').textContent = article.title;
+            document.getElementById('modalAuthor').textContent = `作者：${article.author}`;
+            document.getElementById('modalDate').textContent = `发布时间：${article.createTime}`;
+            document.getElementById('modalContent').textContent = article.content;
+            document.getElementById('articleModal').style.display = 'block';
+            
+            // 禁止页面滚动
+            document.body.style.overflow = 'hidden';
+        }
+
+        // 关闭模态框
+        function closeModal() {
+            document.getElementById('articleModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // 回车搜索
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchArticles();
+            }
+        });
+
+        // 点击模态框外部关闭
+        document.getElementById('articleModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // 监听数据变化
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'articles') {
+                articles = JSON.parse(e.newValue) || [];
+                publishedArticles = articles.filter(article => article.status === 'published');
+                filteredArticles = publishedArticles;
+                renderArticles();
+                renderPagination();
+            }
+        });
+
+        // 页面可见性变化时刷新数据
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden) {
+                const newArticles = JSON.parse(localStorage.getItem('articles')) || [];
+                if (JSON.stringify(newArticles) !== JSON.stringify(articles)) {
+                    articles = newArticles;
+                    publishedArticles = articles.filter(article => article.status === 'published');
+                    filteredArticles = publishedArticles;
+                    renderArticles();
+                    renderPagination();
+                }
+            }
+        });
+    </script>
+</body>
+</html> 
