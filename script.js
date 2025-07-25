@@ -188,21 +188,16 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // 语言切换
-    const langButtons = document.querySelectorAll('.lang-btn');
-    
-    langButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            langButtons.forEach(btn => btn.classList.remove('active'));
-            this.classList.add('active');
-            
-            const lang = this.getAttribute('data-lang');
-            if (lang === 'es') {
-                console.log('切换到西班牙语');
-            } else {
-                console.log('切换到英语');
-            }
-        });
+    // 语言切换功能现在由translations.js处理
+    // 监听语言切换事件
+    window.addEventListener('languageChanged', function(e) {
+        const lang = e.detail.language;
+        console.log(`语言已切换到: ${lang === 'en' ? '英语' : '西班牙语'}`);
+        
+        // 重新加载文章内容（如果需要的话）
+        if (typeof loadHomepageArticles === 'function') {
+            setTimeout(loadHomepageArticles, 100);
+        }
     });
     
     // 手风琴功能

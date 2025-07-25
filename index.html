@@ -7,6 +7,159 @@
     <meta name="description" content="Learn about Naegleria fowleri infections, symptoms, prevention, and treatment from the CDC.">
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦠</text></svg>">
+    <style>
+        /* 文章展示区域样式 */
+        .latest-articles {
+            margin: 40px 0;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .articles-container {
+            max-width: 100%;
+        }
+
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .article-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            border-left: 4px solid #0066cc;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .article-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .article-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #0066cc;
+            margin-bottom: 8px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .article-title:hover {
+            color: #004499;
+        }
+
+        .article-meta {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 12px;
+        }
+
+        .article-meta span {
+            margin-right: 15px;
+        }
+
+        .article-excerpt {
+            color: #444;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .article-stats {
+            display: flex;
+            gap: 15px;
+            font-size: 12px;
+            color: #888;
+        }
+
+        .view-all-articles {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #0066cc;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .view-all-articles:hover {
+            background: #004499;
+        }
+
+        .no-articles {
+            grid-column: 1/-1;
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-style: italic;
+        }
+
+        .no-articles a {
+            color: #0066cc;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .no-articles a:hover {
+            text-decoration: underline;
+        }
+
+        .sidebar-articles {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .sidebar-article {
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .sidebar-article:last-child {
+            border-bottom: none;
+        }
+
+        .sidebar-article-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #0066cc;
+            text-decoration: none;
+            line-height: 1.3;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .sidebar-article-title:hover {
+            color: #004499;
+        }
+
+        .sidebar-article-meta {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .loading-text {
+            color: #666;
+            font-style: italic;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .articles-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .latest-articles {
+                margin: 20px 0;
+                padding: 20px;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Government Banner -->
@@ -14,15 +167,15 @@
         <div class="container">
             <div class="banner-content">
                 <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='10' viewBox='0 0 16 10'%3E%3Cpath fill='%23fff' d='M0 0h16v10H0z'/%3E%3Cpath fill='%23002868' d='M0 0h16v1H0zm0 2h16v1H0zm0 2h16v1H0zm0 2h16v1H0zm0 2h16v1H0z'/%3E%3Cpath fill='%23bf0a30' d='M0 1h16v1H0zm0 3h16v1H0zm0 3h16v1H0z'/%3E%3C/svg%3E" alt="US Flag" class="flag-icon">
-                <span>An official website of the United States government</span>
-                <button class="gov-info-toggle" aria-expanded="false">Here's how you know</button>
+                <span data-translate="govBannerText">An official website of the United States government</span>
+                <button class="gov-info-toggle" aria-expanded="false" data-translate="govBannerToggle">Here's how you know</button>
             </div>
             <div class="gov-info" hidden>
                 <div class="gov-info-content">
-                    <p><strong>Official websites use .gov</strong><br>
-                    A .gov website belongs to an official government organization in the United States.</p>
-                    <p><strong>Secure .gov websites use HTTPS</strong><br>
-                    A lock icon or https:// means you've safely connected to the .gov website.</p>
+                    <p><strong data-translate="govInfoOfficial">Official websites use .gov</strong><br>
+                    <span data-translate="govInfoOfficialDesc">A .gov website belongs to an official government organization in the United States.</span></p>
+                    <p><strong data-translate="govInfoSecure">Secure .gov websites use HTTPS</strong><br>
+                    <span data-translate="govInfoSecureDesc">A lock icon or https:// means you've safely connected to the .gov website.</span></p>
                 </div>
             </div>
         </div>
@@ -42,10 +195,10 @@
                         </svg>
                     </div>
                     <div class="title-section">
-                        <h1 class="main-title">Naegleria fowleri Infection</h1>
+                        <h1 class="main-title" data-translate="mainTitle">Naegleria fowleri Infection</h1>
                         <div class="explore-topic">
                             <button class="explore-btn" id="exploreBtn">
-                                EXPLORE THIS TOPIC
+                                <span data-translate="exploreTopicBtn">EXPLORE THIS TOPIC</span>
                                 <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
                                     <path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                                 </svg>
@@ -124,12 +277,12 @@
                 </div>
                 <div class="search-section">
                     <div class="search-container">
-                        <input type="search" placeholder="Search CDC" class="search-input" id="searchInput">
+                        <input type="search" placeholder="Search CDC" class="search-input" id="searchInput" data-translate="searchPlaceholder">
                         <button class="search-btn" id="searchBtn">
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                                 <path d="M19 19L14.65 14.65M17 9C17 13.4183 13.4183 17 9 17C4.58172 17 1 13.4183 1 9C1 4.58172 4.58172 1 9 1C13.4183 1 17 4.58172 17 9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                             </svg>
-                            SEARCH
+                            <span data-translate="searchBtn">SEARCH</span>
                         </button>
                     </div>
                     <div class="language-toggle">
@@ -147,19 +300,19 @@
             <div class="content-wrapper">
                 <!-- Page Header -->
                 <div class="page-header">
-                    <h2 class="page-title">Naegleria fowleri Infections</h2>
+                    <h2 class="page-title" data-translate="pageSubtitle">Naegleria fowleri Infections</h2>
                     <div class="page-meta">
                         <div class="audience-tag">
                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                                 <path d="M8 0C3.6 0 0 3.6 0 8S3.6 16 8 16 16 12.4 16 8 12.4 0 8 0ZM8 14C4.7 14 2 11.3 2 8S4.7 2 8 2 14 4.7 14 8 11.3 14 8 14Z" fill="#17A2B8"/>
                                 <path d="M8 4C7.4 4 7 4.4 7 5S7.4 6 8 6 9 5.6 9 5 8.6 4 8 4ZM7 7V12H9V7H7Z" fill="#17A2B8"/>
                             </svg>
-                            For Everyone
+                            <span data-translate="audienceTag">For Everyone</span>
                         </div>
                         <div class="date-info">
                             <span>JULY 21, 2025</span>
                             <span class="separator">•</span>
-                            <a href="#" class="spanish-link">ESPAÑOL</a>
+                            <a href="#" class="spanish-link" data-translate="spanishLink">ESPAÑOL</a>
                         </div>
                     </div>
                 </div>
@@ -169,17 +322,17 @@
                     <div class="main-column">
                         <!-- Key Points Section -->
                         <section class="key-points" id="overview">
-                            <h3 class="section-title">KEY POINTS</h3>
+                            <h3 class="section-title" data-translate="keyPoints">KEY POINTS</h3>
                             <div class="points-grid">
                                 <div class="points-content">
                                     <ul class="key-points-list">
-                                        <li>
+                                        <li data-translate="keyPoint1">
                                             <strong>Naegleria fowleri</strong> is a free-living amoeba, a kind of one-celled organism that thrives in warm freshwater lakes, rivers, and hot springs.
                                         </li>
-                                        <li>
+                                        <li data-translate="keyPoint2">
                                             It is often called the "brain-eating amoeba" because it can infect the brain and destroy brain tissue.
                                         </li>
-                                        <li>
+                                        <li data-translate="keyPoint3">
                                             Brain infections caused by <em>Naegleria fowleri</em> are very rare but nearly always fatal.
                                         </li>
                                     </ul>
@@ -192,69 +345,69 @@
 
                         <!-- More Information Section -->
                         <section class="more-info" id="symptoms">
-                            <h3 class="section-title">MORE INFORMATION</h3>
+                            <h3 class="section-title" data-translate="moreInformation">MORE INFORMATION</h3>
                             
                             <div class="info-accordion">
                                 <div class="accordion-item">
                                     <button class="accordion-header" data-target="symptoms-content">
-                                        <h4>Symptoms and Diagnosis</h4>
+                                        <h4 data-translate="symptomsTitle">Symptoms and Diagnosis</h4>
                                         <svg class="accordion-icon" width="16" height="16" viewBox="0 0 16 16">
                                             <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="2" fill="none"/>
                                         </svg>
                                     </button>
                                     <div class="accordion-content" id="symptoms-content">
-                                        <p>Initial symptoms of PAM (Primary Amebic Meningoencephalitis) start about 5 days after infection and may include:</p>
+                                        <p data-translate="symptomsDescription">Initial symptoms of PAM (Primary Amebic Meningoencephalitis) start about 5 days after infection and may include:</p>
                                         <ul>
-                                            <li>Headache</li>
-                                            <li>Fever</li>
-                                            <li>Nausea or vomiting</li>
-                                            <li>Stiff neck</li>
+                                            <li data-translate="symptom1">Headache</li>
+                                            <li data-translate="symptom2">Fever</li>
+                                            <li data-translate="symptom3">Nausea or vomiting</li>
+                                            <li data-translate="symptom4">Stiff neck</li>
                                         </ul>
-                                        <p>Later symptoms may include seizures, altered mental status, hallucinations, and focal neurologic deficits.</p>
+                                        <p data-translate="laterSymptoms">Later symptoms may include seizures, altered mental status, hallucinations, and focal neurologic deficits.</p>
                                     </div>
                                 </div>
 
                                 <div class="accordion-item">
                                     <button class="accordion-header" data-target="prevention-content">
-                                        <h4>Prevention</h4>
+                                        <h4 data-translate="preventionTitle">Prevention</h4>
                                         <svg class="accordion-icon" width="16" height="16" viewBox="0 0 16 16">
                                             <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="2" fill="none"/>
                                         </svg>
                                     </button>
                                     <div class="accordion-content" id="prevention-content">
-                                        <p>You can reduce your risk by following these prevention tips:</p>
+                                        <p data-translate="preventionDescription">You can reduce your risk by following these prevention tips:</p>
                                         <ul>
-                                            <li>Avoid jumping or diving into warm freshwater</li>
-                                            <li>Hold your nose shut or use nose clips when jumping or diving</li>
-                                            <li>Avoid putting your head underwater in hot springs and thermally-polluted water</li>
-                                            <li>Avoid water activities in warm freshwater during periods of high water temperature</li>
+                                            <li data-translate="prevention1">Avoid jumping or diving into warm freshwater</li>
+                                            <li data-translate="prevention2">Hold your nose shut or use nose clips when jumping or diving</li>
+                                            <li data-translate="prevention3">Avoid putting your head underwater in hot springs and thermally-polluted water</li>
+                                            <li data-translate="prevention4">Avoid water activities in warm freshwater during periods of high water temperature</li>
                                         </ul>
                                     </div>
                                 </div>
 
                                 <div class="accordion-item">
                                     <button class="accordion-header" data-target="treatment-content">
-                                        <h4>Treatment</h4>
+                                        <h4 data-translate="treatmentTitle">Treatment</h4>
                                         <svg class="accordion-icon" width="16" height="16" viewBox="0 0 16 16">
                                             <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="2" fill="none"/>
                                         </svg>
                                     </button>
                                     <div class="accordion-content" id="treatment-content">
-                                        <p>Treatment for PAM is difficult because the infection progresses rapidly. Several drugs have shown promise in laboratory studies, including:</p>
+                                        <p data-translate="treatmentDescription">Treatment for PAM is difficult because the infection progresses rapidly. Several drugs have shown promise in laboratory studies, including:</p>
                                         <ul>
-                                            <li>Amphotericin B</li>
-                                            <li>Azithromycin</li>
-                                            <li>Fluconazole</li>
-                                            <li>Rifampin</li>
-                                            <li>Miltefosine</li>
+                                            <li data-translate="treatment1">Amphotericin B</li>
+                                            <li data-translate="treatment2">Azithromycin</li>
+                                            <li data-translate="treatment3">Fluconazole</li>
+                                            <li data-translate="treatment4">Rifampin</li>
+                                            <li data-translate="treatment5">Miltefosine</li>
                                         </ul>
-                                        <p><strong>Early diagnosis and treatment are critical.</strong> If you have symptoms after recent freshwater activities, seek medical attention immediately.</p>
+                                        <p data-translate="treatmentNote"><strong>Early diagnosis and treatment are critical.</strong> If you have symptoms after recent freshwater activities, seek medical attention immediately.</p>
                                     </div>
                                 </div>
 
                                 <div class="accordion-item">
                                     <button class="accordion-header" data-target="statistics-content">
-                                        <h4>Statistics and Surveillance</h4>
+                                        <h4 data-translate="statisticsTitle">Statistics and Surveillance</h4>
                                         <svg class="accordion-icon" width="16" height="16" viewBox="0 0 16 16">
                                             <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="2" fill="none"/>
                                         </svg>
@@ -263,18 +416,18 @@
                                         <div class="stats-grid">
                                             <div class="stat-item">
                                                 <div class="stat-number">154</div>
-                                                <div class="stat-label">Total cases in the U.S. (1962-2021)</div>
+                                                <div class="stat-label" data-translate="totalCases">Total cases in the U.S. (1962-2021)</div>
                                             </div>
                                             <div class="stat-item">
                                                 <div class="stat-number">97%</div>
-                                                <div class="stat-label">Case fatality rate</div>
+                                                <div class="stat-label" data-translate="fatalityRate">Case fatality rate</div>
                                             </div>
                                             <div class="stat-item">
                                                 <div class="stat-number">5</div>
-                                                <div class="stat-label">Known survivors worldwide</div>
+                                                <div class="stat-label" data-translate="survivors">Known survivors worldwide</div>
                                             </div>
                                         </div>
-                                        <p>Most infections occur during the summer months when water temperatures are highest.</p>
+                                        <p data-translate="summerNote">Most infections occur during the summer months when water temperatures are highest.</p>
                                     </div>
                                 </div>
                             </div>
@@ -395,6 +548,22 @@
                                         <li><a href="#">Fact Sheets</a></li>
                                         <li><a href="#">Educational Materials</a></li>
                                     </ul>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Latest Articles Section -->
+                        <section class="latest-articles" id="latest-articles">
+                            <h3 class="section-title" data-translate="latestArticlesTitle">LATEST ARTICLES & UPDATES</h3>
+                            <div class="articles-container">
+                                <div class="articles-grid" id="articlesGrid">
+                                    <!-- 文章将在这里动态加载 -->
+                                    <div class="no-articles">
+                                        <p data-translate="loadingArticles">📝 正在加载最新文章...</p>
+                                    </div>
+                                </div>
+                                <div class="articles-actions">
+                                    <a href="articles.html" class="view-all-articles" data-translate="viewAllArticles">查看所有文章 →</a>
                                 </div>
                             </div>
                         </section>
@@ -577,44 +746,52 @@
                     <!-- Sidebar -->
                     <aside class="sidebar">
                         <div class="sidebar-section">
-                            <h4>Quick Links</h4>
+                            <h4 data-translate="quickLinks">Quick Links</h4>
                             <ul class="quick-links">
-                                <li><a href="#overview">Overview</a></li>
-                                <li><a href="#symptoms">Symptoms</a></li>
-                                <li><a href="#prevention">Prevention</a></li>
-                                <li><a href="#treatment">Treatment</a></li>
-                                <li><a href="#resources">Resources</a></li>
+                                <li><a href="#overview" data-translate="overview">Overview</a></li>
+                                <li><a href="#symptoms" data-translate="symptoms">Symptoms</a></li>
+                                <li><a href="#prevention" data-translate="prevention">Prevention</a></li>
+                                <li><a href="#treatment" data-translate="treatment">Treatment</a></li>
+                                <li><a href="#resources" data-translate="resources">Resources</a></li>
                             </ul>
                         </div>
 
                         <div class="sidebar-section">
-                            <h4>Related Topics</h4>
+                            <h4 data-translate="relatedTopicsTitle">Related Topics</h4>
                             <ul class="related-links">
-                                <li><a href="#acanthamoeba-infections">Acanthamoeba Infections</a></li>
-                                <li><a href="#recreational-water-safety">Recreational Water Safety</a></li>
-                                <li><a href="#parasitic-diseases">Parasitic Diseases</a></li>
-                                <li><a href="#all-related-topics">All Related Topics</a></li>
+                                <li><a href="#acanthamoeba-infections" data-translate="acanthamoebaInfections">Acanthamoeba Infections</a></li>
+                                <li><a href="#recreational-water-safety" data-translate="recreationalWaterSafety">Recreational Water Safety</a></li>
+                                <li><a href="#parasitic-diseases" data-translate="parasiticDiseases">Parasitic Diseases</a></li>
+                                <li><a href="#all-related-topics" data-translate="allRelatedTopics">All Related Topics</a></li>
                             </ul>
                         </div>
 
                         <div class="sidebar-section">
-                            <h4>Stay Informed</h4>
+                            <h4 data-translate="recentArticles">Recent Articles</h4>
+                            <div class="sidebar-articles" id="sidebarArticles">
+                                <!-- 侧边栏文章将在这里动态加载 -->
+                                <p class="loading-text" data-translate="loading">正在加载...</p>
+                            </div>
+                        </div>
+
+                        <div class="sidebar-section">
+                            <h4 data-translate="stayInformed">Stay Informed</h4>
                             <div class="subscription-box">
-                                <p>Get email updates about this topic</p>
+                                <p data-translate="emailUpdates">Get email updates about this topic</p>
                                 <form class="subscription-form">
-                                    <input type="email" placeholder="Enter your email" required>
-                                    <button type="submit">Subscribe</button>
+                                    <input type="email" placeholder="Enter your email" data-translate="emailPlaceholder" required>
+                                    <button type="submit" data-translate="subscribe">Subscribe</button>
                                 </form>
                             </div>
                         </div>
 
                         <div class="sidebar-section">
-                            <h4>Share This Page</h4>
+                            <h4 data-translate="shareThisPage">Share This Page</h4>
                             <div class="share-buttons">
-                                <button class="share-btn facebook" data-platform="facebook">Facebook</button>
-                                <button class="share-btn twitter" data-platform="twitter">Twitter</button>
-                                <button class="share-btn linkedin" data-platform="linkedin">LinkedIn</button>
-                                <button class="share-btn print" onclick="window.print()">Print</button>
+                                <button class="share-btn facebook" data-platform="facebook" data-translate="facebook">Facebook</button>
+                                <button class="share-btn twitter" data-platform="twitter" data-translate="twitter">Twitter</button>
+                                <button class="share-btn linkedin" data-platform="linkedin" data-translate="linkedin">LinkedIn</button>
+                                <button class="share-btn print" onclick="window.print()" data-translate="print">Print</button>
                             </div>
                         </div>
                     </aside>
@@ -628,34 +805,34 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h5>About CDC</h5>
+                    <h5 data-translate="aboutCDC">About CDC</h5>
                     <ul>
-                        <li><a href="#">Mission</a></li>
-                        <li><a href="#">Leadership</a></li>
-                        <li><a href="#">Organization</a></li>
-                        <li><a href="#">Jobs</a></li>
+                        <li><a href="#" data-translate="mission">Mission</a></li>
+                        <li><a href="#" data-translate="leadership">Leadership</a></li>
+                        <li><a href="#" data-translate="organization">Organization</a></li>
+                        <li><a href="#" data-translate="jobs">Jobs</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
-                    <h5>Policies</h5>
+                    <h5 data-translate="policies">Policies</h5>
                     <ul>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Accessibility</a></li>
-                        <li><a href="#">FOIA</a></li>
-                        <li><a href="#">Quality Standards</a></li>
+                        <li><a href="#" data-translate="privacyPolicy">Privacy Policy</a></li>
+                        <li><a href="#" data-translate="accessibility">Accessibility</a></li>
+                        <li><a href="#" data-translate="foia">FOIA</a></li>
+                        <li><a href="#" data-translate="qualityStandards">Quality Standards</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
-                    <h5>Connect</h5>
+                    <h5 data-translate="connect">Connect</h5>
                     <ul>
-                        <li><a href="#">Contact Us</a></li>
-                        <li><a href="#">Email Updates</a></li>
-                        <li><a href="#">Social Media</a></li>
-                        <li><a href="#">Mobile App</a></li>
+                        <li><a href="#" data-translate="contactUs">Contact Us</a></li>
+                        <li><a href="#" data-translate="emailUpdatesFooter">Email Updates</a></li>
+                        <li><a href="#" data-translate="socialMedia">Social Media</a></li>
+                        <li><a href="#" data-translate="mobileApp">Mobile App</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
-                    <h5>Languages</h5>
+                    <h5 data-translate="languages">Languages</h5>
                     <ul>
                         <li><a href="#">Español</a></li>
                         <li><a href="#">中文</a></li>
@@ -665,12 +842,188 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 Centers for Disease Control and Prevention. All rights reserved.</p>
-                <p>U.S. Department of Health & Human Services | CDC</p>
+                <p data-translate="copyright">&copy; 2025 Centers for Disease Control and Prevention. All rights reserved.</p>
+                <p data-translate="department">U.S. Department of Health & Human Services | CDC</p>
             </div>
         </div>
     </footer>
 
+    <script src="database.js"></script>
+    <script src="translations.js"></script>
     <script src="script.js"></script>
+    <script>
+                 // 从后台管理加载首页内容
+         function loadHomepageContent() {
+             if (typeof ArticleDB !== 'undefined') {
+                 const homepage = ArticleDB.getHomepage();
+                 
+                 if (homepage && Object.keys(homepage).length > 0) {
+                     // 更新页面标题
+                     if (homepage.title) {
+                         document.title = homepage.title;
+                     }
+                     
+                     // 更新主标题
+                     if (homepage.mainTitle) {
+                         const mainTitle = document.querySelector('.main-title');
+                         if (mainTitle) {
+                             mainTitle.textContent = homepage.mainTitle;
+                         }
+                     }
+                     
+                     // 更新描述
+                     if (homepage.description) {
+                         const metaDesc = document.querySelector('meta[name="description"]');
+                         if (metaDesc) {
+                             metaDesc.setAttribute('content', homepage.description);
+                         }
+                     }
+                     
+                     // 更新各个内容区域
+                     if (homepage.sections) {
+                         // 症状区域
+                         if (homepage.sections.symptoms) {
+                             const symptomsContent = document.getElementById('symptoms-content');
+                             if (symptomsContent && homepage.sections.symptoms.content) {
+                                 symptomsContent.innerHTML = `<p>${homepage.sections.symptoms.content}</p>`;
+                             }
+                         }
+                         
+                         // 预防区域
+                         if (homepage.sections.prevention) {
+                             const preventionContent = document.getElementById('prevention-content');
+                             if (preventionContent && homepage.sections.prevention.content) {
+                                 preventionContent.innerHTML = `<p>${homepage.sections.prevention.content}</p>`;
+                             }
+                         }
+                         
+                         // 治疗区域
+                         if (homepage.sections.treatment) {
+                             const treatmentContent = document.getElementById('treatment-content');
+                             if (treatmentContent && homepage.sections.treatment.content) {
+                                 treatmentContent.innerHTML = `<p>${homepage.sections.treatment.content}</p>`;
+                             }
+                         }
+                     }
+                     
+                     // 更新统计数据
+                     if (homepage.stats) {
+                         const statItems = document.querySelectorAll('.stat-item');
+                         if (statItems.length >= 3) {
+                             if (homepage.stats.totalCases) {
+                                 statItems[0].querySelector('.stat-number').textContent = homepage.stats.totalCases;
+                             }
+                             if (homepage.stats.fatalityRate) {
+                                 statItems[1].querySelector('.stat-number').textContent = homepage.stats.fatalityRate;
+                             }
+                             if (homepage.stats.survivors) {
+                                 statItems[2].querySelector('.stat-number').textContent = homepage.stats.survivors;
+                             }
+                         }
+                     }
+                     
+                     console.log('✅ 首页内容已从后台管理加载');
+                 }
+             }
+         }
+
+         // 加载文章到首页
+         function loadHomepageArticles() {
+             if (typeof ArticleDB !== 'undefined') {
+                 const articles = ArticleDB.getArticles();
+                 const publishedArticles = articles.filter(article => article.status === 'published');
+                 
+                 // 主要文章区域
+                 const articlesGrid = document.getElementById('articlesGrid');
+                 const sidebarArticles = document.getElementById('sidebarArticles');
+                 
+                 if (publishedArticles.length === 0) {
+                     articlesGrid.innerHTML = `
+                         <div class="no-articles">
+                             <p>📝 暂无发布的文章</p>
+                             <p><a href="admin.html">前往后台管理</a>发布您的第一篇文章</p>
+                         </div>
+                     `;
+                     sidebarArticles.innerHTML = '<p class="loading-text">暂无文章</p>';
+                     return;
+                 }
+                 
+                 // 显示最新的3篇文章
+                 const latestArticles = publishedArticles.slice(0, 3);
+                 
+                 articlesGrid.innerHTML = latestArticles.map(article => `
+                     <div class="article-card">
+                         <a href="articles.html#article-${article.id}" class="article-title">${article.title}</a>
+                         <div class="article-meta">
+                             <span>👤 ${article.author}</span>
+                             <span>📅 ${article.createTime}</span>
+                             <span>📂 ${article.category || '默认分类'}</span>
+                         </div>
+                         <div class="article-excerpt">
+                             ${article.content.length > 150 ? article.content.substring(0, 150) + '...' : article.content}
+                         </div>
+                         <div class="article-stats">
+                             <span>👁️ ${article.viewCount || 0} 浏览</span>
+                             <span>👍 ${article.likeCount || 0} 点赞</span>
+                             <span>💬 ${article.commentCount || 0} 评论</span>
+                         </div>
+                     </div>
+                 `).join('');
+                 
+                 // 侧边栏显示最新的5篇文章
+                 const sidebarArticlesList = publishedArticles.slice(0, 5);
+                 sidebarArticles.innerHTML = sidebarArticlesList.map(article => `
+                     <div class="sidebar-article">
+                         <a href="articles.html#article-${article.id}" class="sidebar-article-title">${article.title}</a>
+                         <div class="sidebar-article-meta">
+                             ${article.author} • ${article.createTime.split(' ')[0]}
+                         </div>
+                     </div>
+                 `).join('');
+                 
+                 console.log('✅ 首页文章已加载:', publishedArticles.length + '篇');
+             }
+         }
+
+                 // 监听数据库更新事件
+         window.addEventListener('databaseUpdate', function(e) {
+             if (e.detail.type === 'homepage') {
+                 loadHomepageContent();
+             } else if (e.detail.type === 'articles') {
+                 loadHomepageArticles();
+             }
+         });
+
+         // 页面加载完成后加载内容
+         document.addEventListener('DOMContentLoaded', function() {
+             // 延迟加载，确保数据库已初始化
+             setTimeout(() => {
+                 loadHomepageContent();
+                 loadHomepageArticles();
+             }, 500);
+         });
+
+        // 添加管理按钮（仅在本地开发时显示）
+        if (window.location.protocol === 'file:' || window.location.hostname === 'localhost') {
+            const adminBtn = document.createElement('div');
+            adminBtn.innerHTML = `
+                <a href="admin.html" style="
+                    position: fixed;
+                    bottom: 20px;
+                    right: 20px;
+                    background: #e74c3c;
+                    color: white;
+                    padding: 12px 20px;
+                    border-radius: 25px;
+                    text-decoration: none;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                    z-index: 1000;
+                    font-size: 14px;
+                    font-weight: bold;
+                ">⚙️ 管理后台</a>
+            `;
+            document.body.appendChild(adminBtn);
+        }
+    </script>
 </body>
 </html> 

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>前后台连接测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 2px solid #e1e1e1;
+            border-radius: 5px;
+        }
+        .test-section h3 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #2980b9;
+        }
+        .result {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            min-height: 50px;
+        }
+        .success {
+            border-left: 4px solid #27ae60;
+            background: #d4edda;
+        }
+        .error {
+            border-left: 4px solid #e74c3c;
+            background: #f8d7da;
+        }
+        .links {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .links a {
+            display: inline-block;
+            margin: 0 10px;
+            padding: 10px 20px;
+            background: #27ae60;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .links a:hover {
+            background: #229954;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔗 前后台连接测试</h1>
+        
+        <div class="test-section">
+            <h3>1. 数据库初始化测试</h3>
+            <button onclick="testDatabaseInit()">测试数据库初始化</button>
+            <div class="result" id="initResult"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>2. 添加文章测试</h3>
+            <button onclick="addTestArticle()">添加测试文章</button>
+            <div class="result" id="addResult"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>3. 读取文章测试</h3>
+            <button onclick="readArticles()">读取所有文章</button>
+            <div class="result" id="readResult"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>4. 事件监听测试</h3>
+            <button onclick="testEventListener()">测试事件监听</button>
+            <div class="result" id="eventResult"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>5. 存储同步测试</h3>
+            <button onclick="testStorageSync()">测试存储同步</button>
+            <div class="result" id="syncResult"></div>
+        </div>
+
+        <div class="links">
+            <a href="login.html">🔐 登录后台</a>
+            <a href="admin.html">⚙️ 后台管理</a>
+            <a href="articles.html">📄 前台展示</a>
+            <a href="dashboard.html">📊 数据看板</a>
+        </div>
+    </div>
+
+    <script src="database.js"></script>
+    <script>
+        // 测试结果显示函数
+        function showResult(elementId, message, isSuccess = true) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = message;
+            element.className = 'result ' + (isSuccess ? 'success' : 'error');
+        }
+
+        // 1. 测试数据库初始化
+        function testDatabaseInit() {
+            try {
+                if (window.ArticleDB) {
+                    const articles = ArticleDB.getArticles();
+                    const settings = ArticleDB.getSettings();
+                    showResult('initResult', 
+                        `✅ 数据库初始化成功！<br>
+                        - 文章数量: ${articles.length}<br>
+                        - 网站名称: ${settings.siteName}<br>
+                        - ArticleDB对象: 已创建`
+                    );
+                } else {
+                    showResult('initResult', '❌ ArticleDB对象未找到', false);
+                }
+            } catch (error) {
+                showResult('initResult', `❌ 初始化失败: ${error.message}`, false);
+            }
+        }
+
+        // 2. 测试添加文章
+        function addTestArticle() {
+            try {
+                const testArticle = {
+                    title: '连接测试文章',
+                    author: '测试用户',
+                    content: '这是一篇用于测试前后台连接的文章。创建时间：' + new Date().toLocaleString(),
+                    status: 'published',
+                    category: '测试分类',
+                    tags: ['测试', '连接']
+                };
+
+                const newArticle = ArticleDB.addArticle(testArticle);
+                showResult('addResult', 
+                    `✅ 文章添加成功！<br>
+                    - 文章ID: ${newArticle.id}<br>
+                    - 标题: ${newArticle.title}<br>
+                    - 状态: ${newArticle.status}`
+                );
+            } catch (error) {
+                showResult('addResult', `❌ 添加文章失败: ${error.message}`, false);
+            }
+        }
+
+        // 3. 测试读取文章
+        function readArticles() {
+            try {
+                const articles = ArticleDB.getArticles();
+                const published = articles.filter(a => a.status === 'published');
+                
+                let articlesHtml = '';
+                articles.slice(0, 3).forEach(article => {
+                    articlesHtml += `<li><strong>${article.title}</strong> - ${article.author} (${article.status})</li>`;
+                });
+
+                showResult('readResult', 
+                    `✅ 读取文章成功！<br>
+                    - 总文章数: ${articles.length}<br>
+                    - 已发布: ${published.length}<br>
+                    - 最近文章:<ul>${articlesHtml}</ul>`
+                );
+            } catch (error) {
+                showResult('readResult', `❌ 读取文章失败: ${error.message}`, false);
+            }
+        }
+
+        // 4. 测试事件监听
+        function testEventListener() {
+            try {
+                let eventReceived = false;
+                
+                // 监听数据库更新事件
+                window.addEventListener('databaseUpdate', function handler(e) {
+                    eventReceived = true;
+                    showResult('eventResult', 
+                        `✅ 事件监听成功！<br>
+                        - 事件类型: ${e.detail.type}<br>
+                        - 时间戳: ${new Date(e.detail.timestamp).toLocaleString()}<br>
+                        - 监听器正常工作`
+                    );
+                    window.removeEventListener('databaseUpdate', handler);
+                });
+
+                // 触发一个测试事件
+                setTimeout(() => {
+                    ArticleDB.addArticle({
+                        title: '事件测试文章',
+                        author: '系统',
+                        content: '用于测试事件监听机制',
+                        status: 'published',
+                        category: '系统测试'
+                    });
+
+                    // 如果2秒后还没收到事件，显示错误
+                    setTimeout(() => {
+                        if (!eventReceived) {
+                            showResult('eventResult', '❌ 事件监听失败：未收到databaseUpdate事件', false);
+                        }
+                    }, 2000);
+                }, 100);
+                
+            } catch (error) {
+                showResult('eventResult', `❌ 事件监听测试失败: ${error.message}`, false);
+            }
+        }
+
+        // 5. 测试存储同步
+        function testStorageSync() {
+            try {
+                const originalCount = ArticleDB.getArticles().length;
+                
+                // 监听storage事件
+                window.addEventListener('storage', function handler(e) {
+                    if (e.key === 'articles_db') {
+                        showResult('syncResult', 
+                            `✅ 存储同步成功！<br>
+                            - 监听到localStorage变化<br>
+                            - 键名: ${e.key}<br>
+                            - 数据已同步`
+                        );
+                        window.removeEventListener('storage', handler);
+                    }
+                });
+
+                // 直接修改localStorage来测试同步
+                setTimeout(() => {
+                    const articles = ArticleDB.getArticles();
+                    articles.push({
+                        id: Date.now(),
+                        title: '同步测试文章',
+                        author: '同步测试',
+                        content: '测试localStorage同步',
+                        status: 'published',
+                        createTime: new Date().toLocaleString(),
+                        updateTime: new Date().toLocaleString(),
+                        viewCount: 0,
+                        likeCount: 0,
+                        commentCount: 0
+                    });
+                    
+                    localStorage.setItem('articles_db', JSON.stringify(articles));
+                    
+                    // 手动触发storage事件（同一页面不会自动触发）
+                    const event = new StorageEvent('storage', {
+                        key: 'articles_db',
+                        newValue: JSON.stringify(articles)
+                    });
+                    window.dispatchEvent(event);
+                }, 100);
+                
+            } catch (error) {
+                showResult('syncResult', `❌ 存储同步测试失败: ${error.message}`, false);
+            }
+        }
+
+        // 页面加载完成后自动运行初始化测试
+        window.addEventListener('load', function() {
+            setTimeout(testDatabaseInit, 500);
+        });
+
+        console.log('🔗 前后台连接测试页面已加载');
+        console.log('📊 可用的测试函数:', ['testDatabaseInit', 'addTestArticle', 'readArticles', 'testEventListener', 'testStorageSync']);
+    </script>
+</body>
+</html> 

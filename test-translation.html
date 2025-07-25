@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Translation Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .language-toggle {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .lang-btn {
+            padding: 10px 20px;
+            margin: 0 5px;
+            border: 2px solid #0066cc;
+            background: white;
+            color: #0066cc;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .lang-btn.active {
+            background: #0066cc;
+            color: white;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .current-lang {
+            background: #f0f8ff;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="current-lang">
+        当前语言: <span id="currentLang">英语</span>
+    </div>
+
+    <div class="language-toggle">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="es">ES</button>
+    </div>
+
+    <div class="test-section">
+        <h2 data-translate="mainTitle">Naegleria fowleri Infection</h2>
+        <p data-translate="keyPoint1">
+            <strong>Naegleria fowleri</strong> is a free-living amoeba, a kind of one-celled organism that thrives in warm freshwater lakes, rivers, and hot springs.
+        </p>
+    </div>
+
+    <div class="test-section">
+        <h3 data-translate="symptomsTitle">Symptoms and Diagnosis</h3>
+        <p data-translate="symptomsDescription">Initial symptoms of PAM (Primary Amebic Meningoencephalitis) start about 5 days after infection and may include:</p>
+        <ul>
+            <li data-translate="symptom1">Headache</li>
+            <li data-translate="symptom2">Fever</li>
+            <li data-translate="symptom3">Nausea or vomiting</li>
+            <li data-translate="symptom4">Stiff neck</li>
+        </ul>
+    </div>
+
+    <div class="test-section">
+        <h3 data-translate="preventionTitle">Prevention</h3>
+        <p data-translate="preventionDescription">You can reduce your risk by following these prevention tips:</p>
+        <ul>
+            <li data-translate="prevention1">Avoid jumping or diving into warm freshwater</li>
+            <li data-translate="prevention2">Hold your nose shut or use nose clips when jumping or diving</li>
+        </ul>
+    </div>
+
+    <script src="translations.js"></script>
+    <script>
+        // 监听语言切换事件
+        window.addEventListener('languageChanged', function(e) {
+            const lang = e.detail.language;
+            const currentLangSpan = document.getElementById('currentLang');
+            currentLangSpan.textContent = lang === 'en' ? '英语' : '西班牙语';
+            
+            console.log('测试页面：语言已切换到', lang);
+        });
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentLang = window.translationSystem.getCurrentLanguage();
+            const currentLangSpan = document.getElementById('currentLang');
+            currentLangSpan.textContent = currentLang === 'en' ? '英语' : '西班牙语';
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,23 @@
+{
+  "name": "naegleria-fowleri-website",
+  "version": "1.0.0",
+  "description": "Naegleria fowleri信息门户 - 前后端分离版本",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "keywords": [
+    "naegleria-fowleri",
+    "health",
+    "information",
+    "portal",
+    "node.js"
+  ],
+  "author": "Admin",
+  "license": "MIT",
+  "engines": {
+    "node": ">=12.0.0"
+  }
+} 

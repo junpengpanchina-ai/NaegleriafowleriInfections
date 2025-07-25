@@ -46,7 +46,22 @@
         .user-info {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .view-site-btn {
+            padding: 8px 16px;
+            background: #27ae60;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .view-site-btn:hover {
+            background: #229954;
         }
 
         .logout-btn {
@@ -80,9 +95,36 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
+        .toolbar-left {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
         .toolbar h1 {
             color: #333;
             font-size: 24px;
+            margin: 0;
+        }
+
+        .stats-info {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+        }
+
+        .stats-info span {
+            padding: 4px 12px;
+            background: #f8f9fa;
+            border-radius: 20px;
+            color: #666;
+            border: 1px solid #e9ecef;
+        }
+
+        #publishedStats {
+            background: #d4edda;
+            color: #155724;
+            border-color: #c3e6cb;
         }
 
         .btn {
@@ -342,6 +384,16 @@
                 gap: 15px;
                 align-items: stretch;
             }
+
+            .toolbar-left {
+                align-items: center;
+                text-align: center;
+            }
+
+            .stats-info {
+                justify-content: center;
+                gap: 10px;
+            }
             
             .search-box {
                 justify-content: center;
@@ -377,6 +429,9 @@
             <div class="logo">文章管理系统</div>
             <div class="user-info">
                 <span>欢迎，管理员</span>
+                <a href="dashboard.html" class="view-site-btn">数据面板</a>
+                <a href="articles.html" class="view-site-btn" target="_blank">文章列表</a>
+                <a href="index.html" class="view-site-btn" target="_blank">查看首页</a>
                 <button class="logout-btn" onclick="logout()">退出登录</button>
             </div>
         </div>
@@ -386,8 +441,15 @@
     <div class="container">
         <!-- 工具栏 -->
         <div class="toolbar">
-            <h1>文章管理</h1>
+            <div class="toolbar-left">
+                <h1>内容管理</h1>
+                <div class="stats-info">
+                    <span id="totalStats">总计：0篇</span>
+                    <span id="publishedStats">已发布：0篇</span>
+                </div>
+            </div>
             <div class="search-box">
+                <button class="btn btn-warning" onclick="manageHomepage()">管理首页</button>
                 <input type="text" id="searchInput" placeholder="搜索文章标题...">
                 <button class="btn btn-primary" onclick="searchArticles()">搜索</button>
                 <button class="btn btn-success" onclick="openAddModal()">添加文章</button>
@@ -403,6 +465,9 @@
                         <th>标题</th>
                         <th>作者</th>
                         <th>状态</th>
+                        <th>👁️ 浏览</th>
+                        <th>👍 点赞</th>
+                        <th>💬 评论</th>
                         <th>创建时间</th>
                         <th>操作</th>
                     </tr>
@@ -454,13 +519,90 @@
         </div>
     </div>
 
+    <!-- 首页管理模态框 -->
+    <div class="modal" id="homepageModal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h2>首页内容管理</h2>
+                <button class="close-btn" onclick="closeHomepageModal()">&times;</button>
+            </div>
+            <div style="max-height: 70vh; overflow-y: auto;">
+                <form id="homepageForm">
+                    <div class="form-group">
+                        <label for="pageTitle">页面标题</label>
+                        <input type="text" id="pageTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="mainTitle">主标题</label>
+                        <input type="text" id="mainTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pageDescription">页面描述</label>
+                        <textarea id="pageDescription" rows="3" required></textarea>
+                    </div>
+                    
+                    <h3 style="margin: 20px 0 10px 0; color: #333;">内容区域</h3>
+                    
+                    <div class="form-group">
+                        <label for="symptomsTitle">症状区域标题</label>
+                        <input type="text" id="symptomsTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="symptomsContent">症状区域内容</label>
+                        <textarea id="symptomsContent" rows="4" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="preventionTitle">预防区域标题</label>
+                        <input type="text" id="preventionTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="preventionContent">预防区域内容</label>
+                        <textarea id="preventionContent" rows="4" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="treatmentTitle">治疗区域标题</label>
+                        <input type="text" id="treatmentTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="treatmentContent">治疗区域内容</label>
+                        <textarea id="treatmentContent" rows="4" required></textarea>
+                    </div>
+                    
+                    <h3 style="margin: 20px 0 10px 0; color: #333;">统计数据</h3>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
+                        <div class="form-group">
+                            <label for="totalCases">总病例数</label>
+                            <input type="text" id="totalCases" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="fatalityRate">致死率</label>
+                            <input type="text" id="fatalityRate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="survivors">幸存者数</label>
+                            <input type="text" id="survivors" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn" onclick="closeHomepageModal()">取消</button>
+                        <button type="submit" class="btn btn-primary">保存首页设置</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script>
         // 全局变量
-        let articles = JSON.parse(localStorage.getItem('articles')) || [];
+        let articles = [];
         let currentPage = 1;
         let itemsPerPage = 10;
         let editingArticleId = null;
-        let filteredArticles = articles;
+        let filteredArticles = [];
 
         // 初始化
         document.addEventListener('DOMContentLoaded', function() {
@@ -470,48 +612,21 @@
                 return;
             }
 
-            // 初始化示例数据
-            if (articles.length === 0) {
-                initSampleData();
-            }
+            // 从数据库加载文章
+            loadArticlesFromDB();
 
             renderArticles();
             renderPagination();
+            updateStats();
         });
 
-        // 初始化示例数据
-        function initSampleData() {
-            const sampleArticles = [
-                {
-                    id: 1,
-                    title: '如何学习前端开发',
-                    author: '张三',
-                    content: '前端开发是一个快速发展的领域，需要掌握HTML、CSS、JavaScript等技术...',
-                    status: 'published',
-                    createTime: new Date('2024-01-15').toLocaleString()
-                },
-                {
-                    id: 2,
-                    title: 'Vue.js 入门指南',
-                    author: '李四',
-                    content: 'Vue.js是一个渐进式JavaScript框架，易于学习和使用...',
-                    status: 'published',
-                    createTime: new Date('2024-01-10').toLocaleString()
-                },
-                {
-                    id: 3,
-                    title: 'CSS Grid 布局详解',
-                    author: '王五',
-                    content: 'CSS Grid是一个强大的二维布局系统，可以帮助我们创建复杂的网页布局...',
-                    status: 'draft',
-                    createTime: new Date('2024-01-05').toLocaleString()
-                }
-            ];
-            
-            articles = sampleArticles;
+        // 从数据库加载文章
+        function loadArticlesFromDB() {
+            articles = ArticleDB.getArticles();
             filteredArticles = articles;
-            localStorage.setItem('articles', JSON.stringify(articles));
         }
+
+
 
         // 渲染文章列表
         function renderArticles() {
@@ -523,7 +638,7 @@
             if (pageArticles.length === 0) {
                 tbody.innerHTML = `
                     <tr>
-                        <td colspan="6" class="empty-state">
+                        <td colspan="9" class="empty-state">
                             <div>📝</div>
                             <p>暂无文章</p>
                         </td>
@@ -538,15 +653,28 @@
                     <td>${article.title}</td>
                     <td>${article.author}</td>
                     <td><span class="status ${article.status}">${article.status === 'published' ? '已发布' : '草稿'}</span></td>
+                    <td>${article.viewCount || 0}</td>
+                    <td>${article.likeCount || 0}</td>
+                    <td>${article.commentCount || 0}</td>
                     <td>${article.createTime}</td>
                     <td>
                         <div class="actions">
                             <button class="btn-warning" onclick="editArticle(${article.id})">编辑</button>
                             <button class="btn-danger" onclick="deleteArticle(${article.id})">删除</button>
+                            <button class="btn-primary" onclick="viewComments(${article.id})">评论</button>
                         </div>
                     </td>
                 </tr>
             `).join('');
+        }
+
+        // 更新统计信息
+        function updateStats() {
+            const totalCount = articles.length;
+            const publishedCount = articles.filter(a => a.status === 'published').length;
+            
+            document.getElementById('totalStats').textContent = `总计：${totalCount}篇`;
+            document.getElementById('publishedStats').textContent = `已发布：${publishedCount}篇`;
         }
 
         // 渲染分页
@@ -602,6 +730,7 @@
             currentPage = 1;
             renderArticles();
             renderPagination();
+            updateStats();
         }
 
         // 打开添加文章模态框
@@ -628,10 +757,9 @@
 
         // 删除文章
         function deleteArticle(id) {
-            if (confirm('确定要删除这篇文章吗？')) {
-                articles = articles.filter(a => a.id !== id);
-                filteredArticles = filteredArticles.filter(a => a.id !== id);
-                localStorage.setItem('articles', JSON.stringify(articles));
+            if (confirm('确定要删除这篇文章吗？这将同时删除该文章的所有评论和点赞记录。')) {
+                ArticleDB.deleteArticle(id);
+                loadArticlesFromDB();
                 
                 // 如果当前页没有文章了，回到上一页
                 const totalPages = Math.ceil(filteredArticles.length / itemsPerPage);
@@ -641,6 +769,7 @@
                 
                 renderArticles();
                 renderPagination();
+                updateStats();
             }
         }
 
@@ -665,36 +794,116 @@
             
             if (editingArticleId) {
                 // 编辑现有文章
-                const articleIndex = articles.findIndex(a => a.id === editingArticleId);
-                if (articleIndex !== -1) {
-                    articles[articleIndex] = {
-                        ...articles[articleIndex],
-                        title,
-                        author,
-                        content,
-                        status
-                    };
-                }
+                ArticleDB.updateArticle(editingArticleId, {
+                    title,
+                    author,
+                    content,
+                    status
+                });
             } else {
                 // 添加新文章
-                const newArticle = {
-                    id: Date.now(),
+                ArticleDB.addArticle({
                     title,
                     author,
                     content,
                     status,
-                    createTime: new Date().toLocaleString()
-                };
-                articles.unshift(newArticle);
+                    category: '默认分类',
+                    tags: []
+                });
             }
             
-            localStorage.setItem('articles', JSON.stringify(articles));
-            filteredArticles = articles;
+            loadArticlesFromDB();
             
             closeModal();
             renderArticles();
             renderPagination();
+            updateStats();
         });
+
+        // 查看文章评论
+        function viewComments(articleId) {
+            const article = ArticleDB.getArticleById(articleId);
+            const comments = ArticleDB.getCommentsByArticleId(articleId);
+            
+            if (!article) {
+                alert('文章不存在');
+                return;
+            }
+            
+            let commentsHtml = `
+                <div style="max-height: 400px; overflow-y: auto;">
+                    <h3>《${article.title}》的评论 (${comments.length}条)</h3><br>
+            `;
+            
+            if (comments.length === 0) {
+                commentsHtml += '<p style="text-align: center; color: #666; padding: 20px;">暂无评论</p>';
+            } else {
+                comments.forEach(comment => {
+                    commentsHtml += `
+                        <div style="border: 1px solid #eee; padding: 15px; margin-bottom: 10px; border-radius: 5px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                <strong style="color: #3498db;">${comment.author}</strong>
+                                <small style="color: #666;">${comment.createTime}</small>
+                            </div>
+                            <p style="margin-bottom: 8px; line-height: 1.5;">${comment.content}</p>
+                            <div style="display: flex; gap: 15px; font-size: 12px; color: #666;">
+                                <span>👍 ${comment.likes || 0}</span>
+                                <button onclick="deleteComment(${comment.id}, ${articleId})" 
+                                        style="color: #e74c3c; background: none; border: none; cursor: pointer;">删除</button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            
+            commentsHtml += '</div>';
+            
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                background: rgba(0,0,0,0.5); z-index: 10000; display: flex;
+                align-items: center; justify-content: center;
+            `;
+            
+            const content = document.createElement('div');
+            content.style.cssText = `
+                background: white; padding: 20px; border-radius: 8px;
+                width: 90%; max-width: 600px; max-height: 80vh; overflow-y: auto;
+            `;
+            
+            content.innerHTML = commentsHtml + `
+                <div style="text-align: right; margin-top: 15px;">
+                    <button onclick="this.closest('.comment-modal').remove()" 
+                            style="padding: 8px 16px; background: #666; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                        关闭
+                    </button>
+                </div>
+            `;
+            
+            modal.className = 'comment-modal';
+            modal.appendChild(content);
+            document.body.appendChild(modal);
+            
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.remove();
+                }
+            });
+        }
+
+        // 删除评论
+        function deleteComment(commentId, articleId) {
+            if (confirm('确定要删除这条评论吗？')) {
+                ArticleDB.deleteComment(commentId);
+                loadArticlesFromDB();
+                renderArticles();
+                updateStats();
+                
+                // 关闭当前评论窗口并重新打开
+                document.querySelector('.comment-modal').remove();
+                viewComments(articleId);
+            }
+        }
 
         // 退出登录
         function logout() {
@@ -718,6 +927,88 @@
                 searchArticles();
             }
         });
+
+        // 监听数据库更新事件
+        window.addEventListener('databaseUpdate', function(e) {
+            if (e.detail.type === 'articles') {
+                loadArticlesFromDB();
+                updateStats();
+            }
+        });
+
+        // 管理首页内容
+        function manageHomepage() {
+            const homepage = ArticleDB.getHomepage();
+            
+            // 填充表单数据
+            document.getElementById('pageTitle').value = homepage.title || '';
+            document.getElementById('mainTitle').value = homepage.mainTitle || '';
+            document.getElementById('pageDescription').value = homepage.description || '';
+            
+            if (homepage.sections) {
+                document.getElementById('symptomsTitle').value = homepage.sections.symptoms?.title || '';
+                document.getElementById('symptomsContent').value = homepage.sections.symptoms?.content || '';
+                document.getElementById('preventionTitle').value = homepage.sections.prevention?.title || '';
+                document.getElementById('preventionContent').value = homepage.sections.prevention?.content || '';
+                document.getElementById('treatmentTitle').value = homepage.sections.treatment?.title || '';
+                document.getElementById('treatmentContent').value = homepage.sections.treatment?.content || '';
+            }
+            
+            if (homepage.stats) {
+                document.getElementById('totalCases').value = homepage.stats.totalCases || '';
+                document.getElementById('fatalityRate').value = homepage.stats.fatalityRate || '';
+                document.getElementById('survivors').value = homepage.stats.survivors || '';
+            }
+            
+            document.getElementById('homepageModal').style.display = 'block';
+        }
+
+        // 关闭首页管理模态框
+        function closeHomepageModal() {
+            document.getElementById('homepageModal').style.display = 'none';
+        }
+
+        // 首页表单提交
+        document.getElementById('homepageForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const homepageData = {
+                title: document.getElementById('pageTitle').value.trim(),
+                mainTitle: document.getElementById('mainTitle').value.trim(),
+                description: document.getElementById('pageDescription').value.trim(),
+                sections: {
+                    symptoms: {
+                        title: document.getElementById('symptomsTitle').value.trim(),
+                        content: document.getElementById('symptomsContent').value.trim()
+                    },
+                    prevention: {
+                        title: document.getElementById('preventionTitle').value.trim(),
+                        content: document.getElementById('preventionContent').value.trim()
+                    },
+                    treatment: {
+                        title: document.getElementById('treatmentTitle').value.trim(),
+                        content: document.getElementById('treatmentContent').value.trim()
+                    }
+                },
+                stats: {
+                    totalCases: document.getElementById('totalCases').value.trim(),
+                    fatalityRate: document.getElementById('fatalityRate').value.trim(),
+                    survivors: document.getElementById('survivors').value.trim()
+                }
+            };
+            
+            ArticleDB.updateHomepage(homepageData);
+            closeHomepageModal();
+            alert('首页内容已更新！请刷新首页查看效果。');
+        });
+
+        // 点击模态框外部关闭首页管理
+        document.getElementById('homepageModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeHomepageModal();
+            }
+        });
     </script>
+    <script src="database.js"></script>
 </body>
 </html> 

@@ -70,6 +70,18 @@
             background: #2980b9;
         }
 
+        .dashboard-link {
+            background: #e74c3c;
+            color: white !important;
+            padding: 8px 16px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .dashboard-link:hover {
+            background: #c0392b;
+        }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -136,6 +148,79 @@
             background: #2980b9;
         }
 
+        /* 管理工具栏 */
+        .admin-toolbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .admin-toolbar-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .admin-info {
+            color: white;
+        }
+
+        .admin-label {
+            font-size: 18px;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .admin-desc {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .admin-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .admin-tool-btn {
+            padding: 10px 18px;
+            border: 2px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+        .admin-tool-btn:hover {
+            background: rgba(255,255,255,0.2);
+            border-color: rgba(255,255,255,0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .login-btn:hover {
+            background: rgba(46, 204, 113, 0.3);
+            border-color: #2ecc71;
+        }
+
+        .manage-btn:hover {
+            background: rgba(52, 152, 219, 0.3);
+            border-color: #3498db;
+        }
+
+        .stats-btn:hover {
+            background: rgba(231, 76, 60, 0.3);
+            border-color: #e74c3c;
+        }
+
         .articles-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -188,11 +273,31 @@
             margin-bottom: 15px;
         }
 
+        .article-stats {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .like-icon, .comment-icon {
+            font-size: 16px;
+        }
+
         .read-more {
             color: #3498db;
             text-decoration: none;
             font-weight: 500;
             transition: color 0.3s;
+            margin-left: auto;
         }
 
         .read-more:hover {
@@ -329,6 +434,357 @@
             color: #333;
         }
 
+        /* 文章操作区域 */
+        .article-actions {
+            margin-top: 30px;
+            padding: 20px 0;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .like-btn {
+            background: none;
+            border: 2px solid #e0e0e0;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .like-btn:hover {
+            border-color: #3498db;
+            color: #3498db;
+        }
+
+        .like-btn.liked {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+
+        .action-divider {
+            color: #ddd;
+            font-size: 18px;
+        }
+
+        .share-text {
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* 评论区域 */
+        .comments-section {
+            margin-top: 30px;
+        }
+
+        .comments-title {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+        }
+
+        .comment-form {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .form-row input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .comment-form textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            min-height: 80px;
+            resize: vertical;
+            font-size: 14px;
+            font-family: inherit;
+            margin-bottom: 15px;
+        }
+
+        .submit-comment-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .submit-comment-btn:hover {
+            background: #2980b9;
+        }
+
+        /* 评论列表 */
+        .comments-list {
+            space-y: 20px;
+        }
+
+        .comment-item {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .comment-author {
+            font-weight: 500;
+            color: #3498db;
+        }
+
+        .comment-time {
+            color: #666;
+        }
+
+        .comment-content {
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .comment-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 13px;
+        }
+
+        .comment-like-btn {
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            padding: 2px 5px;
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+
+        .comment-like-btn:hover {
+            background: #f0f0f0;
+            color: #3498db;
+        }
+
+        .reply-btn {
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            padding: 2px 5px;
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+
+        .reply-btn:hover {
+            background: #f0f0f0;
+            color: #3498db;
+        }
+
+        .comment-reply {
+            margin-left: 30px;
+            margin-top: 15px;
+            padding-left: 15px;
+            border-left: 3px solid #e0e0e0;
+        }
+
+        .empty-comments {
+            text-align: center;
+            color: #666;
+            padding: 40px 20px;
+            font-size: 14px;
+        }
+
+        .floating-admin-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+            transition: all 0.3s;
+            z-index: 1000;
+            user-select: none;
+        }
+
+        .floating-admin-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+        }
+
+        /* 通知动画 */
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
+        /* 快速菜单动画 */
+        @keyframes slideUp {
+            from {
+                transform: translateY(10px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* 快速菜单样式 */
+        .quick-menu-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+            color: #333;
+            font-size: 14px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .quick-menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .quick-menu-item:hover {
+            background: #f8f9fa;
+            color: #3498db;
+        }
+
+        /* 管理面板入口 */
+        .management-panel {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            border-radius: 15px;
+            margin: 60px 0 40px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+
+        .management-content {
+            padding: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .management-info {
+            color: white;
+            flex: 1;
+        }
+
+        .management-info h3 {
+            font-size: 24px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .management-info p {
+            font-size: 16px;
+            opacity: 0.9;
+            line-height: 1.6;
+            max-width: 400px;
+        }
+
+        .management-actions {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .mgmt-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+            min-width: 120px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .mgmt-btn.primary {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+        }
+
+        .mgmt-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(39, 174, 96, 0.4);
+        }
+
+        .mgmt-btn.secondary {
+            background: linear-gradient(135deg, #3498db, #5dade2);
+            color: white;
+        }
+
+        .mgmt-btn.secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(52, 152, 219, 0.4);
+        }
+
+        .mgmt-btn.accent {
+            background: linear-gradient(135deg, #e74c3c, #ec7063);
+            color: white;
+        }
+
+        .mgmt-btn.accent:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(231, 76, 60, 0.4);
+        }
+
         @media (max-width: 768px) {
             .nav {
                 padding: 0 15px;
@@ -373,6 +829,50 @@
             .modal-title {
                 font-size: 24px;
             }
+
+            .floating-admin-btn {
+                bottom: 20px;
+                right: 20px;
+                padding: 10px 16px;
+                font-size: 13px;
+            }
+
+            /* 管理工具栏移动端适配 */
+            .admin-toolbar-content {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .admin-buttons {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 8px;
+            }
+
+            .admin-tool-btn {
+                padding: 8px 14px;
+                font-size: 13px;
+            }
+
+            /* 管理面板移动端适配 */
+            .management-content {
+                flex-direction: column;
+                gap: 25px;
+                padding: 25px;
+                text-align: center;
+            }
+
+            .management-actions {
+                justify-content: center;
+                gap: 10px;
+            }
+
+            .mgmt-btn {
+                padding: 10px 18px;
+                font-size: 13px;
+                min-width: 100px;
+            }
         }
     </style>
 </head>
@@ -382,7 +882,8 @@
             <div class="logo">📚 文章博客</div>
             <div class="nav-links">
                 <a href="#" onclick="showAllArticles()">首页</a>
-                <a href="login.html" class="admin-link">管理后台</a>
+                <a href="#" onclick="goToAdmin()" class="admin-link">管理后台</a>
+                <a href="#" onclick="goToDashboard()" class="dashboard-link">数据统计</a>
             </div>
         </nav>
     </header>
@@ -400,12 +901,54 @@
             </div>
         </div>
 
+        <!-- 管理工具栏 -->
+        <div class="admin-toolbar">
+            <div class="admin-toolbar-content">
+                <div class="admin-info">
+                    <span class="admin-label">📊 管理员工具</span>
+                    <span class="admin-desc">快速访问后台管理功能</span>
+                </div>
+                <div class="admin-buttons">
+                    <button class="admin-tool-btn login-btn" onclick="goToLogin()">
+                        🔑 登录后台
+                    </button>
+                    <button class="admin-tool-btn manage-btn" onclick="goToAdmin()">
+                        ⚙️ 文章管理
+                    </button>
+                    <button class="admin-tool-btn stats-btn" onclick="goToDashboard()">
+                        📈 数据统计
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <div class="articles-grid" id="articlesGrid">
             <!-- 文章列表将在这里动态生成 -->
         </div>
 
         <div class="pagination" id="pagination">
             <!-- 分页将在这里动态生成 -->
+        </div>
+
+        <!-- 管理面板入口 -->
+        <div class="management-panel">
+            <div class="management-content">
+                <div class="management-info">
+                    <h3>🔧 网站管理</h3>
+                    <p>登录后台管理系统，管理文章内容、查看数据统计、处理用户评论等。</p>
+                </div>
+                <div class="management-actions">
+                    <button class="mgmt-btn primary" onclick="goToLogin()">
+                        🔑 登录管理
+                    </button>
+                    <button class="mgmt-btn secondary" onclick="goToAdmin()">
+                        📝 文章管理
+                    </button>
+                    <button class="mgmt-btn accent" onclick="goToDashboard()">
+                        📊 数据面板
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -418,27 +961,65 @@
                 <div class="modal-meta">
                     <span id="modalAuthor"></span>
                     <span id="modalDate"></span>
+                    <span id="modalViews"></span>
                 </div>
             </div>
             <div class="modal-body">
                 <div class="modal-content-text" id="modalContent"></div>
+                
+                <!-- 点赞和分享区域 -->
+                <div class="article-actions">
+                    <button class="like-btn" id="likeBtn">👍 0</button>
+                    <span class="action-divider">|</span>
+                    <span class="share-text">分享文章</span>
+                </div>
+                
+                <!-- 评论区域 -->
+                <div class="comments-section">
+                    <h3 class="comments-title">评论区</h3>
+                    
+                    <!-- 评论表单 -->
+                    <div class="comment-form">
+                        <div class="form-row">
+                            <input type="text" id="commentAuthor" placeholder="您的昵称" required>
+                            <input type="email" id="commentEmail" placeholder="邮箱地址（可选）">
+                        </div>
+                        <textarea id="commentContent" placeholder="写下您的评论..." required></textarea>
+                        <button type="button" class="submit-comment-btn" onclick="submitComment()">发表评论</button>
+                    </div>
+                    
+                    <!-- 评论列表 -->
+                    <div class="comments-list" id="commentsList">
+                        <!-- 评论将在这里动态生成 -->
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
         // 全局变量
-        let articles = JSON.parse(localStorage.getItem('articles')) || [];
-        let publishedArticles = articles.filter(article => article.status === 'published');
-        let filteredArticles = publishedArticles;
+        let articles = [];
+        let publishedArticles = [];
+        let filteredArticles = [];
         let currentPage = 1;
         let articlesPerPage = 6;
+        let userIP = '';
 
         // 初始化
         document.addEventListener('DOMContentLoaded', function() {
+            loadArticlesFromDB();
+            userIP = ArticleDB.getUserIP();
             renderArticles();
             renderPagination();
         });
+
+        // 从数据库加载文章
+        function loadArticlesFromDB() {
+            articles = ArticleDB.getArticles();
+            publishedArticles = articles.filter(article => article.status === 'published');
+            filteredArticles = publishedArticles;
+        }
 
         // 渲染文章列表
         function renderArticles() {
@@ -470,9 +1051,20 @@
                             <div class="article-meta">
                                 <span class="article-author">👤 ${article.author}</span>
                                 <span>📅 ${article.createTime}</span>
+                                <span>👁️ ${article.viewCount || 0}</span>
                             </div>
                             <p class="article-excerpt">${excerpt}</p>
-                            <a href="#" class="read-more" onclick="event.stopPropagation(); openArticle(${article.id})">阅读全文 →</a>
+                            <div class="article-stats">
+                                <span class="stat-item">
+                                    <span class="like-icon">👍</span>
+                                    <span>${article.likeCount || 0}</span>
+                                </span>
+                                <span class="stat-item">
+                                    <span class="comment-icon">💬</span>
+                                    <span>${article.commentCount || 0}</span>
+                                </span>
+                                <a href="#" class="read-more" onclick="event.stopPropagation(); openArticle(${article.id})">阅读全文 →</a>
+                            </div>
                         </div>
                     </div>
                 `;
@@ -563,19 +1155,230 @@
             renderPagination();
         }
 
+        // 切换点赞状态
+        function toggleLike(articleId) {
+            const hasLiked = ArticleDB.hasUserLiked(articleId, userIP);
+            
+            if (hasLiked) {
+                const result = ArticleDB.removeLike(articleId, userIP);
+                if (result.success) {
+                    showNotification('取消点赞成功', 'success');
+                }
+            } else {
+                const result = ArticleDB.addLike(articleId, userIP);
+                if (result.success) {
+                    showNotification('点赞成功', 'success');
+                } else {
+                    showNotification(result.message, 'error');
+                }
+            }
+            
+            // 更新按钮状态
+            const updatedArticle = ArticleDB.getArticleById(articleId);
+            const newHasLiked = ArticleDB.hasUserLiked(articleId, userIP);
+            const likeBtn = document.getElementById('likeBtn');
+            likeBtn.className = newHasLiked ? 'like-btn liked' : 'like-btn';
+            likeBtn.innerHTML = `${newHasLiked ? '👍' : '👍'} ${updatedArticle.likeCount || 0}`;
+            
+            // 刷新文章列表
+            loadArticlesFromDB();
+            renderArticles();
+        }
+
+        // 加载评论
+        function loadComments(articleId) {
+            const comments = ArticleDB.getCommentsByArticleId(articleId);
+            const commentsList = document.getElementById('commentsList');
+            
+            if (comments.length === 0) {
+                commentsList.innerHTML = '<div class="empty-comments">暂无评论，来发表第一条评论吧！</div>';
+                return;
+            }
+            
+            // 按时间排序
+            comments.sort((a, b) => new Date(a.createTime) - new Date(b.createTime));
+            
+            commentsList.innerHTML = comments.map(comment => `
+                <div class="comment-item">
+                    <div class="comment-header">
+                        <span class="comment-author">${comment.author}</span>
+                        <span class="comment-time">${comment.createTime}</span>
+                    </div>
+                    <div class="comment-content">${comment.content}</div>
+                    <div class="comment-actions">
+                        <button class="comment-like-btn" onclick="likeComment(${comment.id})">
+                            👍 ${comment.likes || 0}
+                        </button>
+                        <button class="reply-btn" onclick="replyToComment(${comment.id})">回复</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 提交评论
+        function submitComment() {
+            const author = document.getElementById('commentAuthor').value.trim();
+            const email = document.getElementById('commentEmail').value.trim();
+            const content = document.getElementById('commentContent').value.trim();
+            
+            if (!author || !content) {
+                showNotification('请填写昵称和评论内容', 'error');
+                return;
+            }
+            
+            const articleId = getCurrentArticleId();
+            if (!articleId) {
+                showNotification('获取文章信息失败', 'error');
+                return;
+            }
+            
+            const commentData = {
+                articleId: articleId,
+                author: author,
+                email: email,
+                content: content,
+                parentId: null
+            };
+            
+            const newComment = ArticleDB.addComment(commentData);
+            if (newComment) {
+                showNotification('评论发表成功', 'success');
+                
+                // 清空表单
+                document.getElementById('commentAuthor').value = '';
+                document.getElementById('commentEmail').value = '';
+                document.getElementById('commentContent').value = '';
+                
+                // 重新加载评论
+                loadComments(articleId);
+                
+                // 刷新文章列表
+                loadArticlesFromDB();
+                renderArticles();
+            } else {
+                showNotification('评论发表失败', 'error');
+            }
+        }
+
+        // 获取当前文章ID
+        function getCurrentArticleId() {
+            const modal = document.getElementById('articleModal');
+            if (modal.style.display === 'block') {
+                const title = document.getElementById('modalTitle').textContent;
+                const article = articles.find(a => a.title === title);
+                return article ? article.id : null;
+            }
+            return null;
+        }
+
+        // 点赞评论
+        function likeComment(commentId) {
+            // 这里可以扩展评论点赞功能
+            showNotification('评论点赞功能待开发', 'info');
+        }
+
+        // 回复评论
+        function replyToComment(commentId) {
+            // 这里可以扩展评论回复功能
+            showNotification('评论回复功能待开发', 'info');
+        }
+
+        // 显示通知
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 12px 20px;
+                border-radius: 4px;
+                color: white;
+                font-size: 14px;
+                z-index: 10000;
+                animation: slideIn 0.3s ease;
+            `;
+            
+            switch(type) {
+                case 'success':
+                    notification.style.background = '#27ae60';
+                    break;
+                case 'error':
+                    notification.style.background = '#e74c3c';
+                    break;
+                case 'info':
+                    notification.style.background = '#3498db';
+                    break;
+            }
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // 跳转到管理后台
+        function goToAdmin() {
+            if (localStorage.getItem('isLoggedIn') === 'true') {
+                window.location.href = 'admin.html';
+            } else {
+                window.location.href = 'login.html';
+            }
+        }
+
+        // 跳转到数据统计面板
+        function goToDashboard() {
+            if (localStorage.getItem('isLoggedIn') === 'true') {
+                window.location.href = 'dashboard.html';
+            } else {
+                window.location.href = 'login.html';
+            }
+        }
+
+        // 跳转到登录页面
+        function goToLogin() {
+            window.location.href = 'login.html';
+        }
+
         // 打开文章详情
         function openArticle(id) {
             const article = articles.find(a => a.id === id);
             if (!article) return;
 
-            document.getElementById('modalTitle').textContent = article.title;
-            document.getElementById('modalAuthor').textContent = `作者：${article.author}`;
-            document.getElementById('modalDate').textContent = `发布时间：${article.createTime}`;
-            document.getElementById('modalContent').textContent = article.content;
+            // 增加浏览量
+            ArticleDB.incrementViewCount(id);
+            
+            // 更新文章信息
+            const updatedArticle = ArticleDB.getArticleById(id);
+            
+            document.getElementById('modalTitle').textContent = updatedArticle.title;
+            document.getElementById('modalAuthor').textContent = `作者：${updatedArticle.author}`;
+            document.getElementById('modalDate').textContent = `发布时间：${updatedArticle.createTime}`;
+            document.getElementById('modalViews').textContent = `浏览量：${updatedArticle.viewCount || 0}`;
+            document.getElementById('modalContent').textContent = updatedArticle.content;
+            
+            // 设置点赞状态
+            const hasLiked = ArticleDB.hasUserLiked(id, userIP);
+            const likeBtn = document.getElementById('likeBtn');
+            likeBtn.className = hasLiked ? 'like-btn liked' : 'like-btn';
+            likeBtn.innerHTML = `${hasLiked ? '👍' : '👍'} ${updatedArticle.likeCount || 0}`;
+            likeBtn.onclick = () => toggleLike(id);
+            
+            // 加载评论
+            loadComments(id);
+            
             document.getElementById('articleModal').style.display = 'block';
             
             // 禁止页面滚动
             document.body.style.overflow = 'hidden';
+            
+            // 刷新文章列表以显示最新数据
+            loadArticlesFromDB();
         }
 
         // 关闭模态框
@@ -600,12 +1403,15 @@
 
         // 监听数据变化
         window.addEventListener('storage', function(e) {
-            if (e.key === 'articles') {
-                articles = JSON.parse(e.newValue) || [];
-                publishedArticles = articles.filter(article => article.status === 'published');
-                filteredArticles = publishedArticles;
-                renderArticles();
-                renderPagination();
+            if (e.key === 'articles_db') {
+                loadArticlesFromDB();
+            }
+        });
+
+        // 监听数据库更新事件
+        window.addEventListener('databaseUpdate', function(e) {
+            if (e.detail.type === 'articles') {
+                loadArticlesFromDB();
             }
         });
 
@@ -622,6 +1428,112 @@
                 }
             }
         });
+
+        // 添加浮动管理按钮
+        function addFloatingAdminButton() {
+            const floatingBtn = document.createElement('div');
+            floatingBtn.className = 'floating-admin-btn';
+            
+            // 检查登录状态
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            
+            if (isLoggedIn) {
+                floatingBtn.innerHTML = '⚙️ 管理';
+                floatingBtn.title = '点击进入管理后台';
+                floatingBtn.onclick = function() {
+                    // 创建快速菜单
+                    showQuickMenu(floatingBtn);
+                };
+            } else {
+                floatingBtn.innerHTML = '🔑 登录';
+                floatingBtn.title = '点击登录管理后台';
+                floatingBtn.onclick = goToLogin;
+            }
+            
+            document.body.appendChild(floatingBtn);
+        }
+
+        // 显示快速菜单
+        function showQuickMenu(btn) {
+            // 移除已存在的菜单
+            const existingMenu = document.querySelector('.quick-menu');
+            if (existingMenu) {
+                existingMenu.remove();
+                return;
+            }
+
+            const menu = document.createElement('div');
+            menu.className = 'quick-menu';
+            menu.innerHTML = `
+                <div class="quick-menu-item" onclick="goToAdmin(); hideQuickMenu();">
+                    ⚙️ 文章管理
+                </div>
+                <div class="quick-menu-item" onclick="goToDashboard(); hideQuickMenu();">
+                    📊 数据统计
+                </div>
+                <div class="quick-menu-item" onclick="goToLogin(); hideQuickMenu();">
+                    🔓 重新登录
+                </div>
+            `;
+            
+            menu.style.cssText = `
+                position: fixed;
+                bottom: 85px;
+                right: 30px;
+                background: white;
+                border-radius: 8px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+                z-index: 9999;
+                overflow: hidden;
+                animation: slideUp 0.2s ease;
+            `;
+            
+            document.body.appendChild(menu);
+            
+            // 点击其他地方关闭菜单
+            setTimeout(() => {
+                document.addEventListener('click', function(e) {
+                    if (!menu.contains(e.target) && !btn.contains(e.target)) {
+                        menu.remove();
+                    }
+                }, { once: true });
+            }, 100);
+        }
+
+        // 隐藏快速菜单
+        function hideQuickMenu() {
+            const menu = document.querySelector('.quick-menu');
+            if (menu) menu.remove();
+        }
+
+        // 页面加载完成后添加浮动按钮
+        document.addEventListener('DOMContentLoaded', function() {
+            addFloatingAdminButton();
+            updateNavigation();
+        });
+
+        // 更新导航栏状态
+        function updateNavigation() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            const navLinks = document.querySelector('.nav-links');
+            
+            if (isLoggedIn) {
+                // 添加登录状态指示
+                const statusIndicator = document.createElement('span');
+                statusIndicator.className = 'login-status';
+                statusIndicator.innerHTML = '✅ 已登录';
+                statusIndicator.style.cssText = `
+                    color: #27ae60;
+                    font-size: 12px;
+                    background: rgba(39, 174, 96, 0.1);
+                    padding: 4px 8px;
+                    border-radius: 12px;
+                    margin-left: 10px;
+                `;
+                navLinks.appendChild(statusIndicator);
+            }
+        }
     </script>
+    <script src="database.js"></script>
 </body>
 </html> 
