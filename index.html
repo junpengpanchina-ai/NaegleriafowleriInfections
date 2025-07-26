@@ -1005,24 +1005,34 @@
 
         // 添加管理按钮（仅在本地开发时显示）
         if (window.location.protocol === 'file:' || window.location.hostname === 'localhost') {
-            const adminBtn = document.createElement('div');
-            adminBtn.innerHTML = `
-                <a href="admin.html" style="
-                    position: fixed;
-                    bottom: 20px;
-                    right: 20px;
-                    background: #e74c3c;
-                    color: white;
-                    padding: 12px 20px;
-                    border-radius: 25px;
-                    text-decoration: none;
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-                    z-index: 1000;
-                    font-size: 14px;
-                    font-weight: bold;
-                ">⚙️ 管理后台</a>
+            const adminButtons = document.createElement('div');
+            adminButtons.innerHTML = `
+                <div style="position: fixed; bottom: 20px; right: 20px; z-index: 1000; display: flex; flex-direction: column; gap: 10px;">
+                    <a href="admin.html" style="
+                        background: #e74c3c;
+                        color: white;
+                        padding: 12px 20px;
+                        border-radius: 25px;
+                        text-decoration: none;
+                        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                        font-size: 14px;
+                        font-weight: bold;
+                        text-align: center;
+                    ">⚙️ 管理后台</a>
+                    <a href="security-dashboard.html" style="
+                        background: #8e44ad;
+                        color: white;
+                        padding: 12px 20px;
+                        border-radius: 25px;
+                        text-decoration: none;
+                        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                        font-size: 14px;
+                        font-weight: bold;
+                        text-align: center;
+                    ">🛡️ 安全面板</a>
+                </div>
             `;
-            document.body.appendChild(adminBtn);
+            document.body.appendChild(adminButtons);
         }
     </script>
 </body>

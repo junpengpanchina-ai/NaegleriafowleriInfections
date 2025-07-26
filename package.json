@@ -1,23 +1,75 @@
 {
   "name": "naegleria-fowleri-website",
   "version": "1.0.0",
-  "description": "Naegleria fowleri信息门户 - 前后端分离版本",
+  "description": "Naegleria fowleri信息门户 - 加强安全版本",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "node server.js",
-    "test": "echo \"No tests specified\" && exit 0"
+    "dev": "nodemon server.js",
+    "test": "npm run test:security && npm run test:unit",
+    "test:security": "npm audit && node security-test.js",
+    "test:unit": "echo \"Unit tests not implemented yet\"",
+    "security:scan": "node security-scanner.js",
+    "security:backup": "node -e \"require('./secure-storage').createBackup()\"",
+    "security:monitor": "node security-monitor.js",
+    "security:counter-attack": "node -e \"require('./counter-attack-monitor').generateAttackReport()\"",
+    "security:attackers": "node -e \"console.log(JSON.stringify(require('./counter-attack-monitor').getAllAttackers(), null, 2))\"",
+    "lint": "eslint *.js",
+    "lint:fix": "eslint *.js --fix",
+    "install:secure": "npm install && npm audit fix"
   },
   "keywords": [
     "naegleria-fowleri",
     "health",
     "information",
     "portal",
-    "node.js"
+    "node.js",
+    "security",
+    "healthcare",
+    "CDC"
   ],
   "author": "Admin",
   "license": "MIT",
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "dependencies": {
+    "jsonwebtoken": "^9.0.2",
+    "bcrypt": "^5.1.1",
+    "helmet": "^7.1.0",
+    "express-rate-limit": "^7.1.5",
+    "cors": "^2.8.5",
+    "express-validator": "^7.0.1",
+    "dompurify": "^3.0.5",
+    "jsdom": "^23.0.1",
+    "node-cron": "^3.0.2",
+    "winston": "^3.11.0",
+    "compression": "^1.7.4",
+    "cookie-parser": "^1.4.6",
+    "express-session": "^1.17.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2",
+    "eslint": "^8.55.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-security": "^1.7.1",
+    "audit-ci": "^6.6.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cdc/naegleria-fowleri-website.git"
+  },
+  "bugs": {
+    "url": "https://github.com/cdc/naegleria-fowleri-website/issues"
+  },
+  "homepage": "https://github.com/cdc/naegleria-fowleri-website#readme",
+  "security": {
+    "policy": "./SECURITY.md",
+    "contact": "security@cdc.gov"
+  },
+  "config": {
+    "port": 3000,
+    "env": "development"
   }
 } 
